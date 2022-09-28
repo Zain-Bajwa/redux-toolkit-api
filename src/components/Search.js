@@ -1,27 +1,49 @@
 import { Fragment, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import SearchCity from "../redux/actions";
+import { WEATHER_API_KEY } from "../config";
 
-const Search = () => {
+const Search = (props) => {
   const [keyword, setKeyword] = useState("");
-  const [unit, setUnit] = useState("Celsius");
+  const [unit, setUnit] = useState("metric");
 
-  SearchCity(keyword);
-  debugger
-
+  // Getting value from the input and set it into keyword
   const onSearchChanged = (event) => {
     setKeyword(event.target.value);
   };
 
+  // This will get the value of checked Radio button
   const onRadioChange = (event) => {
     setUnit(event.target.id);
-    console.log(event.target.id);
   };
 
-  const onSubmit = () => {
-    SearchCity(keyword);
-    debugger
+  // This function will check the city name in the Redux-Store. If the name
+  // is in Redux-Store then it will return false otherwise true.
+  const checkCityNameStore = () => {
+    let flag = true;
+    props.cities.forEach((city) => {
+      if (city.cityName.toLowerCase() === keyword.toLowerCase()) {
+        flag = false;
+        return flag;
+      }
+    });
+    return flag;
+  };
+
+  const onSubmit = (e) => {
+    // The following line of code ensures the the input field should not empty
+    // and the City name should not in the redux-store.
+    if (keyword !== "" && checkCityNameStore()) {
+      const requestData = { q: keyword, appid: WEATHER_API_KEY, units: unit };
+      props.getCity(requestData);
+    }
+  };
+
+  // Call onSubmit() with Enter key
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      onSubmit();
+    }
   };
 
   return (
@@ -35,9 +57,10 @@ const Search = () => {
           <div className="input-group justify-content-center">
             <input
               type="search"
-              id="form1"
+              id="search-city"
               className="form-control"
               onChange={(e) => onSearchChanged(e)}
+              onKeyDown={(e) => handleKeyDown(e)}
               placeholder="Search"
             />
             <button
@@ -55,10 +78,10 @@ const Search = () => {
                 className="form-check-input"
                 type="radio"
                 name="inlineRadioOptions"
-                id="Celsius"
-                //value="option1"
+                // metric=celsius
+                id="metric"
                 onChange={(e) => onRadioChange(e)}
-                checked={unit === "Celsius"}
+                checked={unit === "metric"}
               />
               <label className="form-check-label">Celsius</label>
             </div>
@@ -68,10 +91,10 @@ const Search = () => {
                 className="form-check-input"
                 type="radio"
                 name="inlineRadioOptions"
-                id="Farenheit"
-                //value="option2"
+                // imperial=farenheit
+                id="imperial"
                 onChange={(e) => onRadioChange(e)}
-                checked={unit === "Farenheit"}
+                checked={unit === "imperial"}
               />
               <label className="form-check-label">Farenheit</label>
             </div>

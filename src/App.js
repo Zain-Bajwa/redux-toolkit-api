@@ -1,15 +1,11 @@
-//import allPosts from './components/SearchCity';
-//import './App.css';
-import Search from './components/Search';
-import Weather from './components/Weather';
-
+import Weather from "./components/container/weatherContainer";
+import Search from "./components/container/searchContainer";
 
 function App() {
-  
   return (
-    <div className="container py-5 text-secondary">
-    <Search />
-    <Weather />
+    <div className="container py-5">
+      <Search />
+      <Weather />
     </div>
   );
 }
