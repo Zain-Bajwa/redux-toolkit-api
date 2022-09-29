@@ -50,7 +50,7 @@ const Search = (props) => {
     <Fragment>
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col-md-8 col-lg-6 col-xl-4">
-          <h3 className="mb-4 pb-2 fw-normal text-center">
+          <h3 className="mb-4 pb-2 fw-normal text-center text-white">
             Check the weather forecast
           </h3>
 
@@ -83,7 +83,7 @@ const Search = (props) => {
                 onChange={(e) => onRadioChange(e)}
                 checked={unit === "metric"}
               />
-              <label className="form-check-label">Celsius</label>
+              <label className="form-check-label text-white">Celsius</label>
             </div>
 
             <div className="form-check form-check-inline">
@@ -96,7 +96,7 @@ const Search = (props) => {
                 onChange={(e) => onRadioChange(e)}
                 checked={unit === "imperial"}
               />
-              <label className="form-check-label">Farenheit</label>
+              <label className="form-check-label text-white">Farenheit</label>
             </div>
           </div>
         </div>
