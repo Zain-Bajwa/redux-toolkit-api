@@ -19,7 +19,8 @@ const store = configureStore({
 const persistor = persistStore(store);
 
 const useSelector = useReduxSelector;
-
+// What is the difference in following two lines
+// const useDispatch = useReduxDispatch;
 const useDispatch = () => useReduxDispatch();
 
 export { store, persistor, useSelector, useDispatch };

@@ -8,10 +8,13 @@ import {
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Fragment } from "react";
-import Rain from "../static/backgroundImges/Rain.gif";
-import Clouds from "../static/backgroundImges/Clouds.gif";
-import Clear from "../static/backgroundImges/Clear.gif";
-import Smoke from "../static/backgroundImges/Smoke.jpg";
+import {
+  Rain,
+  Clouds,
+  Clear,
+  Smoke,
+  Haze,
+} from "../static/backgroundImges/images";
 import Loading from "./loading";
 
 const Weather = (props) => {
@@ -25,8 +28,10 @@ const Weather = (props) => {
       return faSun;
     } else if (main === "Rain" || main === "Drizzle") {
       return faCloudRain;
-    } else if (main === "Smoke") {
+    } else if (main === "Smoke" || main === "Mist") {
       return faSmog;
+    } else if (main === "Haze") {
+      return faCloud;
     }
   };
 
@@ -36,7 +41,12 @@ const Weather = (props) => {
       return "#f4d867";
     } else if (main === "Rain" || main === "Drizzle") {
       return "#73a08a";
-    } else if (main === "Clouds" || main === "Smoke") {
+    } else if (
+      main === "Clouds" ||
+      main === "Smoke" ||
+      main === "Haze" ||
+      main === "Mist"
+    ) {
       return "#ffff";
     }
   };
@@ -51,6 +61,25 @@ const Weather = (props) => {
       return "Raining";
     } else if (main === "Smoke") {
       return "Smoke";
+    } else if (main === "Haze") {
+      return "Haze";
+    } else if (main === "Mist") {
+      return "Mist";
+    }
+  };
+
+  // Conditional rendering for text colour of every component
+  const textColor = (main) => {
+    if (main === "Clouds") {
+      return "text-white";
+    } else if (main === "Clear") {
+      return "text-dark";
+    } else if (main === "Rain" || main === "Drizzle") {
+      return "text-white";
+    } else if (main === "Smoke") {
+      return "text-white";
+    } else if (main === "Haze" || main === "Mist") {
+      return "text-dark";
     }
   };
 
@@ -64,6 +93,8 @@ const Weather = (props) => {
       return Rain;
     } else if (main === "Smoke") {
       return Smoke;
+    } else if (main === "Haze" || main === "Mist") {
+      return Haze;
     }
   };
 
@@ -97,9 +128,7 @@ const Weather = (props) => {
                 }}
               >
                 <div
-                  className={`card-body rounded p-4 ${
-                    city.main === "Clear" ? "text-dark" : "text-white"
-                  }`}
+                  className={`card-body rounded p-4 ${textColor(city.main)}`}
                 >
                   <h4 className="mb-1 sfw-normal">
                     {city.cityName}, {city.countryName}
