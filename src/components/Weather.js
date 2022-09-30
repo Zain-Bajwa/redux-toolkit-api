@@ -116,63 +116,53 @@ const Weather = (props) => {
       ) : (
         reverseCities.map((city, index) => (
           <div
-            className="row d-flex justify-content-center align-items-center h-100"
+            className="card shadow-0 border my-4"
             key={index}
+            style={{
+              backgroundSize: "cover",
+              backgroundImage: `url(${backgroundGif(city.main)})`,
+            }}
           >
-            <div className="col-md-8 col-lg-6 col-xl-4">
-              <div
-                className="card shadow-0 border my-4"
-                style={{
-                  backgroundSize: "cover",
-                  backgroundImage: `url(${backgroundGif(city.main)})`,
-                }}
-              >
-                <div
-                  className={`card-body rounded p-4 ${textColor(city.main)}`}
-                >
-                  <h4 className="mb-1 sfw-normal">
-                    {city.cityName}, {city.countryName}
-                  </h4>
-                  <p>
-                    Current temperature:{" "}
-                    <strong>
-                      {city.currentTemperature}°
-                      {city.unit === "imperial" ? "F" : "C"}
-                    </strong>
-                  </p>
-                  <p>
-                    Feels like:{" "}
-                    <strong>
-                      {city.feelsLike}°{city.unit === "imperial" ? "F" : "C"}
-                    </strong>
-                  </p>
-                  <p>
-                    Max:{" "}
-                    <strong>
-                      {city.maxTemperature}°
-                      {city.unit === "imperial" ? "F" : "C"}
-                    </strong>
-                    , Min:{" "}
-                    <strong>
-                      {city.minTemperature}°
-                      {city.unit === "imperial" ? "F" : "C"}
-                    </strong>
-                  </p>
-                  <p>
-                    Pressure: <strong>{city.pressure}N/m2 </strong>, Humidity:{" "}
-                    <strong>{city.humidity}%</strong>
-                  </p>
+            <div className={`card-body rounded p-4 ${textColor(city.main)}`}>
+              <h4 className="mb-1 sfw-normal">
+                {city.cityName}, {city.countryName}
+              </h4>
+              <p>
+                Current temperature:{" "}
+                <strong>
+                  {city.currentTemperature}°
+                  {city.unit === "imperial" ? "F" : "C"}
+                </strong>
+              </p>
+              <p>
+                Feels like:{" "}
+                <strong>
+                  {city.feelsLike}°{city.unit === "imperial" ? "F" : "C"}
+                </strong>
+              </p>
+              <p>
+                Max:{" "}
+                <strong>
+                  {city.maxTemperature}°{city.unit === "imperial" ? "F" : "C"}
+                </strong>
+                , Min:{" "}
+                <strong>
+                  {city.minTemperature}°{city.unit === "imperial" ? "F" : "C"}
+                </strong>
+              </p>
+              <p>
+                Pressure: <strong>{city.pressure}N/m2 </strong>, Humidity:{" "}
+                <strong>{city.humidity}%</strong>
+              </p>
 
-                  <div className="d-flex flex-row align-items-center">
-                    <p className="mb-0 me-4">{fontAwesomeText(city.main)}</p>
-                    <i style={{ color: fontAwesomeColor(city.main) }}>
-                      <FontAwesomeIcon
-                        icon={fontAwesomeIcon(city.main)}
-                        className="fa-2x"
-                      />
-                    </i>
-                  </div>
-                </div>
+              <div className="d-flex">
+                <p className="mb-0 me-4">{fontAwesomeText(city.main)}</p>
+                <i style={{ color: fontAwesomeColor(city.main) }}>
+                  <FontAwesomeIcon
+                    icon={fontAwesomeIcon(city.main)}
+                    className="fa-2x"
+                  />
+                </i>
               </div>
             </div>
           </div>

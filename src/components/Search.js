@@ -1,11 +1,30 @@
 import { Fragment, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
+import Typography from "@mui/material/Typography";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 import { WEATHER_API_KEY } from "../config";
 
 const Search = (props) => {
   const [keyword, setKeyword] = useState("");
   const [unit, setUnit] = useState("metric");
+
+  const controlProps = (value) => ({
+    checked: unit === value,
+    onChange: (e) => onRadioChange(e),
+    value: value,
+    sx: {
+      color: "white",
+      "&.Mui-checked": {
+        color: "white",
+      },
+    },
+  });
 
   // Getting value from the input and set it into keyword
   const onSearchChanged = (event) => {
@@ -14,7 +33,7 @@ const Search = (props) => {
 
   // This will get the value of checked Radio button
   const onRadioChange = (event) => {
-    setUnit(event.target.id);
+    setUnit(event.target.value);
   };
 
   // This function will check the city name in the Redux-Store. If the name
@@ -30,7 +49,7 @@ const Search = (props) => {
     return flag;
   };
 
-  const onSubmit = (e) => {
+  const handleOnClick = (e) => {
     // The following line of code ensures the the input field should not empty
     // and the City name should not in the redux-store.
     if (keyword !== "" && checkCityNameStore()) {
@@ -42,65 +61,50 @@ const Search = (props) => {
   // Call onSubmit() with Enter key
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      onSubmit();
+      handleOnClick();
     }
   };
 
   return (
     <Fragment>
-      <div className="row d-flex justify-content-center align-items-center h-100">
-        <div className="col-md-8 col-lg-6 col-xl-4">
-          <h3 className="mb-4 pb-2 fw-normal text-center text-white">
-            Check the weather forecast
-          </h3>
-
-          <div className="input-group justify-content-center">
-            <input
-              type="search"
-              id="search-city"
-              className="form-control"
-              onChange={(e) => onSearchChanged(e)}
-              onKeyDown={(e) => handleKeyDown(e)}
-              placeholder="Search"
-            />
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => onSubmit()}
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </div>
-
-          <div className="pt-2">
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                // metric=celsius
-                id="metric"
-                onChange={(e) => onRadioChange(e)}
-                checked={unit === "metric"}
-              />
-              <label className="form-check-label text-white">Celsius</label>
-            </div>
-
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                // imperial=farenheit
-                id="imperial"
-                onChange={(e) => onRadioChange(e)}
-                checked={unit === "imperial"}
-              />
-              <label className="form-check-label text-white">Farenheit</label>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Typography variant="h5" sx={{ pb: 3, color: "white" }} align="center">
+        Check the weather forecast
+      </Typography>
+      <Paper sx={{ display: "flex" }}>
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Search City"
+          id="search-city"
+          onChange={(e) => onSearchChanged(e)}
+          onKeyDown={(e) => handleKeyDown(e)}
+        />
+        <IconButton
+          type="button"
+          sx={{ p: "8px" }}
+          aria-label="search"
+          onClick={() => handleOnClick()}
+        >
+          <SearchIcon sx={{ fontSize: 20, color: "black" }} />
+        </IconButton>
+      </Paper>
+      <FormControl>
+        <RadioGroup
+          row
+          aria-labelledby="demo-form-control-label-placement"
+          name="position"
+          defaultValue="metric"
+          sx={{ color: "white" }}
+        >
+          <FormControlLabel
+            control={<Radio {...controlProps("metric")} />}
+            label="Celsius"
+          />
+          <FormControlLabel
+            control={<Radio {...controlProps("imperial")} />}
+            label="Farenheit"
+          />
+        </RadioGroup>
+      </FormControl>
     </Fragment>
   );
 };
